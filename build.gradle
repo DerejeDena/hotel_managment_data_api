@@ -1,0 +1,68 @@
+plugins {
+	id 'java'
+	id 'war'
+	id 'org.springframework.boot' version '2.7.18'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.dere_mac'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '11'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// Junit
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.amqp:spring-rabbit-test'
+	testImplementation 'com.h2database:h2'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// queryDSL
+	implementation "com.querydsl:querydsl-jpa:5.0.0"
+	implementation "com.querydsl:querydsl-sql:5.0.0"
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jpa"
+	annotationProcessor "javax.persistence:javax.persistence-api:2.2"
+
+	// API Documentation
+	implementation "org.springdoc:springdoc-openapi-ui:1.6.12"
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+sourceSets {
+	main {
+		java {
+			srcDirs +=[
+			        "${buildDir}/generated/sources/annotationProcessor/java/main"
+			]
+		}
+	}
+}
